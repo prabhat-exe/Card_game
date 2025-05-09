@@ -97,9 +97,7 @@
       var alldiv = document.getElementsByClassName("images");
       for (let singleimg of alldiv) {
         singleimg.addEventListener("click", function () {
-          count--;
-          var remaining = document.getElementById("score");
-          remaining.innerText = count;
+        
           if (count >= 1) {
             let img = singleimg.querySelector("img");
             let parah = singleimg.querySelector("p");
@@ -107,6 +105,9 @@
               img.style.display = "block";
               parah.innerText = "";
             }
+            count--;
+          var remaining = document.getElementById("score");
+          remaining.innerText = count;
             if (img.src == appimg.src) {
               
                 result(1);
