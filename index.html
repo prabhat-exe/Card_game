@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Card Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <div id="result">
+      <img src="" alt="" />
+      <div id="overlay">
+        <p id="restext"></p>
+
+        <div id="button">
+          <button id="yes">yes</button>
+          <button id="no">no</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="scoreBoard">
+      You have to guess the same card given on right==><br />
+      You have remaining chance
+      <p id="score"></p>
+    </div>
+    <div id="mastercard"></div>
+    <script>
+      var count = 3;
+      var imgcontainer = document.getElementById("container");
+      var resultimg = ["winLose.JPG", "winner.JPG"];
+
+      var imagesarr = [
+        "ben1.jpg",
+        "ben2.jpg",
+        "cat1.jpg",
+        "chhota.jpg",
+        "ferb1.jpg",
+        "ferb2.jpg",
+        "ninja1.jpg",
+        "perman1.jpg",
+        "perman2.jpg",
+        "pikachu1.jpg",
+        "pikachu2.jpg",
+        "shinchan3.jpg",
+        "tom2.jpg",
+      ];
+      //   var numberarr = [];
+      //   for (let i = 0; i < imagesarr.length; i++) {
+      //     numberarr.push(i + 1);
+      //   }
+      // console.log(numberarr);
+
+      function suffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      //   var suffledarr=suffle(numberarr);
+      //   console.log(suffledarr);
+
+      var suffledarr = suffle(imagesarr);
+      //   console.log(images);
+
+      var randomIndex = Math.floor(Math.random() * 10);
+
+      console.log(randomIndex);
+      var marsterdiv = document.getElementById("mastercard");
+      var appimg = document.createElement("img");
+      appimg.src = "images/" + suffledarr[randomIndex];
+      marsterdiv.appendChild(appimg);
+      console.log(appimg.src);
+
+      for (let i = 0; i < 10; i++) {
+        const div = document.createElement("div");
+        const p = document.createElement("p");
+
+        p.innerText = "click To see card";
+
+        div.appendChild(p);
+
+        div.setAttribute("id", "img" + i);
+        div.setAttribute("class", "images");
+        const img = document.createElement("img");
+        div.appendChild(img);
+        img.src = "images/" + suffledarr[i];
+        console.log(div);
+        imgcontainer.appendChild(div);
+        // document.querySelector('.container div').setAttribute('id',i);
+      }
+
+      var alldiv = document.getElementsByClassName("images");
+      for (let singleimg of alldiv) {
+        singleimg.addEventListener("click", function () {
+          count--;
+          var remaining = document.getElementById("score");
+          remaining.innerText = count;
+          if (count >= 1) {
+            let img = singleimg.querySelector("img");
+            let parah = singleimg.querySelector("p");
+            if (img.style.display === "none" || img.style.display === "") {
+              img.style.display = "block";
+              parah.innerText = "";
+            }
+            if (img.src == appimg.src) {
+              
+                result(1);
+              
+              // alert("Image matched!!!!");
+            }
+
+            console.log(img.src);
+          } else {
+            setTimeout(() => {
+              result();
+            }, 3000);
+            // alert("you only got 3 chance!!");
+            for (let images of alldiv) {
+              let img = images.querySelector("img");
+              let parah = images.querySelector("p");
+              img.style.display = "block";
+              parah.innerText = "";
+              if (img.src == appimg.src) {
+                img.style.margin = "0px";
+                img.style.border = "3px solid red";
+                img.style.boxShadow = "0 0 15px 4px red";
+              }
+            }
+          }
+        });
+      }
+
+      var remaining = document.getElementById("score");
+      remaining.innerText = count;
+
+      function result(r) {
+        var resultdiv = document.querySelector("#result");
+        resultdiv.style.display = "block";
+
+        if (r == 1) {
+          var resimg = document.querySelector("#result img");
+          var parah = document.querySelector("#restext");
+          parah.innerText = "You win the game.Restart";
+          resimg.src = "images/" + resultimg[1];
+        } else {
+          var resimg = document.querySelector("#result img");
+          var parah = document.querySelector("#restext");
+          parah.innerText =
+            "You got only 3 chance . You lose the game.Restart?";
+          resimg.src = "images/" + resultimg[0];
+        }
+      }
+
+      var yes = document.getElementById("yes");
+      yes.addEventListener("click", function () {
+        location.reload();
+      });
+    </script>
+  </body>
+</html>
